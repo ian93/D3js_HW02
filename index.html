@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>D3.js HW02</title>
+    <!-- 越晚載入的腳本 優先度越高 -->
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <style>
+        p{
+            width: 100px;
+            height: 2em;
+            border: 1.5px solid red;
+            
+            text-align: center;
+            font-size: 1.7em;
+            font-family: arial black;
+            line-height: 2em;
+            color: navy;
+        }
+    </style>
+
+</head>
+
+<body>
+    <p></p>
+    <input type="button" onclick="launch()" value="啟動">
+    
+    <script>
+        function launch(){
+            var result = Math.floor(Math.random()*(2016-1911+1)+1911);
+            return d3.select("p").text(result);
+        }
+    </script>
+    
+    <br><br><hr>
+    
+    <svg width="300" height="200" id="svg1"> </svg>
+    <script>
+        var svg1 = d3.select("#svg1");
+        svg1.append("rect")
+            .attr({
+                   x: 0,
+                   y: 0,
+                   fill: "#fdf5e6",
+                   width: 300,
+                   height: 200      
+            });
+        svg1.append("circle")
+            .attr({
+                   cx: 150,
+                   cy: 120,
+                   r: 15
+            });
+        svg1.append("rect")
+            .attr({
+                   x: 160,
+                   y: 45,
+                   width: 5,
+                   height: 78
+            });
+        svg1.append("text")
+            .attr({
+                   x: 136,
+                   y: 200,
+                   "font-size": 42,
+                   "font-family": "arial"
+          }).text("A")
+        for(var i = 0; i < 5; i++){
+            svg1.append("rect").attr({
+                 x: 0,
+                 y: 44+30*i,
+                 width: 300,
+                 height: 2
+            });
+        }
+    </script>
+    
+    <br><hr><br>
+    
+    <script>
+        var random = function(N, M){
+            return Math.floor(Math.random()*(M-N+1)+N)
+        }
+
+//      修改隨機資料組數
+//      使圖形自動變形
+        var dataSets = 20;
+        
+        var svg2 = d3.select("body").append("svg").attr({
+            width: 600,
+            height: (dataSets + 1) * 12 + 20
+        });
+        
+        var lineArray = [];
+        var coordinates = "10,10 ";
+        
+        for(var i = 0; i < dataSets; i++){
+            var num = random(20, 300);
+            lineArray[i] = num;
+            coordinates = coordinates + (10 + lineArray[i]) + "," +(10 + 12*(i + 1))+" ";
+        }
+        coordinates = coordinates + "10," + ((dataSets + 1)*12+10);
+//            console.log(lineArray);
+//            console.log(coordinates);
+        svg2.append("polyline")
+            .attr({
+                   points: coordinates,
+                   fill: "rgba(0,0,0,0)",
+                   stroke: "#333",
+        });
+
+        for(var i = 0; i < dataSets; i++){
+            svg2.append("circle").attr({
+                 cx: 10+lineArray[i],
+                 cy: 10+12*(i+1),
+                 r: 3,
+                 fill: "#ff0000"
+            });
+            svg2.append("text").attr({
+                 x: 15+lineArray[i],
+                 y: 15+12*(i+1),
+                 "font-size": 15,
+                 "font-family": "arial black",
+                 fill: "navy"
+            }).text(lineArray[i]);
+        }
+    </script>
+
+</body>
+
+</html>
